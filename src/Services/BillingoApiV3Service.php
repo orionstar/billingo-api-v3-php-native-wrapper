@@ -3,9 +3,10 @@
 namespace Deviddev\BillingoApiV3Wrapper\Services;
 
 use Exception;
-use Deviddev\BillingoApiV3Wrapper\Traits\ProcessErrorsTrait;
 use Deviddev\BillingoApiV3Wrapper\Support\Arr;
 use Swagger\Client\Configuration as SwaggerConfig;
+use Deviddev\BillingoApiV3Wrapper\Traits\ProcessErrorsTrait;
+use Deviddev\BillingoApiV3Wrapper\Exceptions\BillingoApiException;
 
 class BillingoApiV3Service
 {
@@ -76,17 +77,17 @@ class BillingoApiV3Service
     protected function __construct(string $apiKey = null)
     {
         $this->config = SwaggerConfig::getDefaultConfiguration()
-            ->setApiKey('X-API-KEY', $this->checkConfigHelperIsExists() ? config('billingo-api-v3-wrapper.api_key') : $apiKey);
+            ->setApiKey('X-API-KEY', $this->isLaravel() ? config('billingo-api-v3-wrapper.api_key') : $apiKey);
     }
 
     /**
-     * Check that config helper function is exists, this is laravel specific
+     * Check that the environment is Laravel
      *
      * @return boolean
      */
-    protected function checkConfigHelperIsExists(): bool
+    protected function isLaravel(): bool
     {
-        return \function_exists('config');
+        return \function_exists('app') && app() instanceof \Illuminate\Foundation\Application;
     }
 
     /**
@@ -126,8 +127,9 @@ class BillingoApiV3Service
                     $params
                 );
         } catch (\Throwable $th) {
-            echo $this->error($th->getMessage())->response();
-            exit;
+            $message = $this->error($th->getMessage())->response();
+
+            throw new BillingoApiException($message);
         }
 
         $this->setResponse();
