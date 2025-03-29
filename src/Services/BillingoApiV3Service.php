@@ -4,7 +4,7 @@ namespace Deviddev\BillingoApiV3Wrapper\Services;
 
 use Exception;
 use Deviddev\BillingoApiV3Wrapper\Traits\ProcessErrorsTrait;
-use Illuminate\Support\Arr;
+use Deviddev\BillingoApiV3Wrapper\Support\Arr;
 use Swagger\Client\Configuration as SwaggerConfig;
 
 class BillingoApiV3Service

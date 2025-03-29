@@ -6,7 +6,7 @@ use Orchestra\Testbench\TestCase;
 use Deviddev\BillingoApiV3Wrapper\BillingoApiV3WrapperServiceProvider;
 use Deviddev\BillingoApiV3Wrapper\BillingoApiV3Wrapper as Billingo;
 
-class ExampleTest extends TestCase
+final class LaravelWrapperTest extends TestCase
 {
 
     /**
@@ -14,7 +14,7 @@ class ExampleTest extends TestCase
      *
      * @var array
      */
-    protected $partner = [
+    protected array $partner = [
         'name' => 'Test Company',
         'address' => [
             'country_code' => 'HU',
@@ -31,7 +31,7 @@ class ExampleTest extends TestCase
      *
      * @var array
      */
-    protected $partnerUpdate = [
+    protected array $partnerUpdate = [
         'name' => 'Test Company updated',
         'address' => [
             'country_code' => 'HU',
@@ -46,9 +46,9 @@ class ExampleTest extends TestCase
     /**
      * Hold billingoApi instance
      *
-     * @var object
+     * @var \Deviddev\BillingoApiV3Wrapper\BillingoApiV3Wrapper
      */
-    protected $billingoApi;
+    protected Billingo $billingoApi;
 
     /**
      * Set up partner id accross tests
@@ -87,6 +87,7 @@ class ExampleTest extends TestCase
     /**
      * Test that partner create contains partner id
      *
+     * @throws \Exception
      * @return void
      */
     public function testPartnerApiCreateContainsId(): void
@@ -103,6 +104,7 @@ class ExampleTest extends TestCase
     /**
      * Test that partner create response contains partner name
      *
+     * @throws \Exception
      * @return void
      */
     public function testPartnerApiCreateResponseContainsPartner(): void
@@ -115,6 +117,7 @@ class ExampleTest extends TestCase
     /**
      * Test that partner update conatins partner id
      *
+     * @throws \Exception
      * @return void
      */
     public function testPartnerApiUpdateContainsId(): void
@@ -129,6 +132,7 @@ class ExampleTest extends TestCase
     /**
      * Test that partner update response contains partner name
      *
+     * @throws \Exception
      * @return void
      */
     public function testPartnerApiUpdateResponseContainsPartner(): void
@@ -139,4 +143,5 @@ class ExampleTest extends TestCase
 
         $this->assertContains('Test Company updated', $billingoApi);
     }
+
 }

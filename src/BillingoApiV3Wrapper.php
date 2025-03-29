@@ -4,7 +4,6 @@ namespace Deviddev\BillingoApiV3Wrapper;
 
 use Deviddev\BillingoApiV3Wrapper\Services\BillingoApiV3Service;
 use Exception;
-use Illuminate\Support\Facades\Storage;
 
 class BillingoApiV3Wrapper extends BillingoApiV3Service
 {
@@ -118,16 +117,18 @@ class BillingoApiV3Wrapper extends BillingoApiV3Service
     /**
      * Download document
      *
-     * @param integer $id
+     * @param    integer        $id
+     * @param    null|string    $path
+     * @param    null|string    $extension
      *
-     * @return string
+     * @return \Deviddev\BillingoApiV3Wrapper\BillingoApiV3Wrapper
      */
-    public function downloadInvoice(int $id, string $path = null, string $extension = null): self
+    public function downloadInvoice(int $id, ?string $path = null, ?string $extension = null): self
     {
         $filename = $id . ($extension ?? $this->extension);
         $this->createResponse('download', [$id], true);
 
-        Storage::put(
+        Illuminate\Support\Facades\Storage::put(
             ($path ?? $this->downloadPath) . $filename,
             $this->response[0]
         );
